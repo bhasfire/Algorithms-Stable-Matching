@@ -143,30 +143,23 @@ public class Program1 extends AbstractProgram1 {
      */
     @Override
     public Matching stableMatchingGaleShapley_highschooloptimal(Matching problem) {
-    // number of students and high schools
     int n = problem.getStudentCount();
     int m = problem.getHighSchoolCount();
 
-    // create preference order for students and high schools
     ArrayList<ArrayList<Integer>> student_pref = problem.getStudentPreference();
     ArrayList<ArrayList<Integer>> highschool_pref = problem.getHighSchoolPreference();
-
-    // capacity for each high school
     ArrayList<Integer> highschool_spots = problem.getHighSchoolSpots();
 
-    // array to store current capacity of each high school
     int[] school_capacity = new int[m];
     for (int i = 0; i < m; i++) {
         school_capacity[i] = highschool_spots.get(i);
     }
 
-    // array to store the current school of each student, initially all -1 (unmatched)
     ArrayList<Integer> student_matching = new ArrayList<>(Collections.nCopies(n, -1));
+    ArrayList<ArrayList<Integer>> highschool_students = new ArrayList<>(Collections.nCopies(m, new ArrayList<>()));
 
-    // array to store next student to propose for each school
     int[] next_student_to_propose = new int[m];
 
-    // continue until no proposals can be made
     boolean proposals_possible = true;
     while (proposals_possible) {
         proposals_possible = false;
@@ -176,9 +169,12 @@ public class Program1 extends AbstractProgram1 {
                 int student = highschool_pref.get(school).get(next_student_to_propose[school]);
                 int matched_school = student_matching.get(student);
                 if (matched_school == -1 || student_pref.get(student).indexOf(school) < student_pref.get(student).indexOf(matched_school)) {
-                    student_matching.set(student, school);
-                    if (matched_school != -1)
+                    if (matched_school != -1) {
                         school_capacity[matched_school]++;
+                        highschool_students.get(matched_school).remove(Integer.valueOf(student));
+                    }
+                    student_matching.set(student, school);
+                    highschool_students.get(school).add(student);
                     school_capacity[school]--;
                 }
                 next_student_to_propose[school]++;
@@ -188,5 +184,6 @@ public class Program1 extends AbstractProgram1 {
 
     problem.setStudentMatching(student_matching);
     return problem;
-    }
+}
+
 }
