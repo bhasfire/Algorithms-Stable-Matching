@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "Driver",
             "projectName": "Programming_Assignment_1_58e5acc6",
-            "args": "-gs large_inputs/40.in"
+            "args": "-gh large_inputs/40.in"
         }
     ]
 }

@@ -28,7 +28,7 @@ public class Program1 extends AbstractProgram1 {
      * Determines whether a candidate Matching represents a solution to the stable matching problem.
      * Study the description of a Matching in the project documentation to help you with this.
      */
-    @Override
+        @Override
     public boolean isStableMatching(Matching problem) {
         ArrayList<Integer> student_matching = problem.getStudentMatching();
         ArrayList<ArrayList<Integer>> student_preference = problem.getStudentPreference();
@@ -45,18 +45,24 @@ public class Program1 extends AbstractProgram1 {
 
                 ArrayList<Integer> preferred_highschool_prefs = highschool_preference.get(preferred_highschool);
                 int assigned_student_rank = preferred_highschool_prefs.indexOf(student);
-                int current_student_rank = preferred_highschool_prefs.indexOf(student_matching.get(preferred_highschool));
 
-                // If the preferred high school prefers this student to their currently assigned student, return false
-                if (assigned_student_rank < current_student_rank) {
-                    return false;
+                // Check each student assigned to preferred_highschool
+                for (int assigned_student = 0; assigned_student < student_matching.size(); assigned_student++) {
+                    if (student_matching.get(assigned_student) == preferred_highschool) {
+                        int current_student_rank = preferred_highschool_prefs.indexOf(assigned_student);
+
+                        // If the preferred high school prefers this student to their currently assigned student, return false
+                        if (assigned_student_rank < current_student_rank) {
+                            return false;
+                        }
+                    }
                 }
             }
         }
 
         return true; // No instability found
-
     }
+
 
     /**
      * Determines a solution to the stable matching problem from the given input set. Study the
@@ -120,7 +126,7 @@ public class Program1 extends AbstractProgram1 {
             }
 
             if (!matched) {
-                //System.out.println("Student " + student + " has no more schools to propose to.");
+                System.out.println("Student " + student + " has no more schools to propose to.");
             }
         }
 
