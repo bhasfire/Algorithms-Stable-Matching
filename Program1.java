@@ -126,7 +126,7 @@ public class Program1 extends AbstractProgram1 {
             }
 
             if (!matched) {
-                System.out.println("Student " + student + " has no more schools to propose to.");
+                //System.out.println("Student " + student + " has no more schools to propose to.");
             }
         }
 
